@@ -1,0 +1,24 @@
+# Setup docker compose version
+version: "3.7"
+
+# Initialize service
+services:
+  item-app:
+    # Setup container always restart when the container is down
+    restart: always
+    image: ghcr.io/naufalazmi48/item-app:v1
+    # Set container item-app will start after container item-db is started
+    depends_on:
+      - item-db
+    ports:
+      - 80:8080
+    working_dir: /app
+  
+  item-db:
+    restart: always
+    image: mongo:3
+    volumes: 
+      - app-db:/data/db
+
+volumes:
+  app-db:
