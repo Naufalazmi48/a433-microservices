@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  lint-dockerfile:
+    machine:
+      image: ubuntu-2004:202104-01
+    steps:
+      - checkout
+      - run: docker container run --rm -i hadolint/hadolint hadolint - < Dockerfile
+  build-app-karsajobs-ui:
+    machine: 
+      image: ubuntu-2004:202104-01
+    steps:
+      - checkout
+      - run: sh "docker/scripts/build_push_image_karsajobs_ui.sh"
+
+workflows:
+  lint_build_and_push:
+    jobs:
+      - lint-dockerfile
+      - build-app-karsajobs-ui
