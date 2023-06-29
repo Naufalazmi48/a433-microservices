@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-ui
+  labels:
+    app: karsajobs-ui
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: app
+  template: 
+    metadata: 
+      labels:
+        app: karsajobs-ui
+        tier: app
+    spec:
+      containers:
+      - name: webapp
+        image: ghcr.io/naufalazmi48/karsajobs-ui:latest
+        ports: 
+          - containerPort: 8000

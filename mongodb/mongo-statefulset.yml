@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+      tier: data
+  serviceName: mongodb
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        tier: data
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - image: mongo:latest
+        name: mongodb
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 27017
+        volumeMounts:
+          - name: mongodb-persistent-storage
+            mountPath: /data/db
+          - name: mongodb-configmap
+            mountPath: /config
+            readOnly: true
+          - name: mongodb-secret
+            mountPath: /etc/mongo-credentials
+            readOnly: true
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME_FILE
+            value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+          - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+            value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
+      volumes:
+        - name: mongodb-persistent-storage
+          persistentVolumeClaim:
+             claimName: mongodb-pvc-claim
+        - name: mongodb-configmap
+          configMap:
+            name: mongodb-config
+        - name: mongodb-secret
+          secret:
+            secretName: data-tier-secret
