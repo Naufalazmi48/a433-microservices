@@ -1,0 +1,2 @@
+karsajobs-ui => https://github.com/users/Naufalazmi48/packages/container/package/karsajobs-ui
+karsajobs => https://github.com/users/Naufalazmi48/packages/container/package/karsajobs
