@@ -6,6 +6,7 @@ metadata:
     app: karsajobs-ui
     tier: app
 spec:
+# Create only one replica pod
   replicas: 1
   selector:
     matchLabels:
@@ -18,6 +19,8 @@ spec:
     spec:
       containers:
       - name: webapp
+      # Pull image from github package
         image: ghcr.io/naufalazmi48/karsajobs-ui:latest
         ports: 
+        # Set container port 
           - containerPort: 8000

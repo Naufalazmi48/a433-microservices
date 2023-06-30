@@ -9,4 +9,5 @@ spec:
   selector:
     app: karsajobs-ui
   ports:
+  # Set service port
     - port: 8000

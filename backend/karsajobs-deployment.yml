@@ -6,6 +6,7 @@ metadata:
     app: karsajobs
     tier: backend
 spec:
+# Create only one instance or replica for pod
   replicas: 1
   selector:
     matchLabels:
@@ -18,10 +19,12 @@ spec:
     spec:
       containers:
       - name: server
+      # Load image from github package
         image: ghcr.io/naufalazmi48/karsajobs:latest
         ports: 
           - containerPort: 8080
         env:
+        # Setup env by static value and from secret value
           - name: APP_PORT
             value: "8080"
           - name: MONGO_HOST

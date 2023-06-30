@@ -9,5 +9,6 @@ spec:
   selector:
     app: karsajobs
   ports:
+  # Set up service port to 8080 and node port to 30007
     - port: 8080
       nodePort: 30007
