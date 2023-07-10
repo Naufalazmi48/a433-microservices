@@ -1,0 +1,29 @@
+# Membuat objek Deployment dengan nama dan label rabbitmq-consumer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-consumer
+  labels:
+    app: rabbitmq-consumer
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq-consumer
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-consumer
+    spec:
+    # Menetapkan template container yang dibutuhkan dengan memberikan nama rabbitmq-consumer 
+    # serta mengatur container port ke 3001 sesuai dengan expose port dari image yang ada di github package
+      containers:
+        - name: rabbitmq-consumer
+          image: ghcr.io/naufalazmi48/shipping-service:latest
+          ports:
+            - containerPort: 3001
+          env:
+          # Mengatur environtment ke production serta rabbitmq server url agar container dapat terhubung ke rabbitmq
+            - name: NODE_ENV
+              value: production
+            - name: AMQP_URL
+              value: amqp://user:TajODMQfEe@rabbit-rabbitmq:5672

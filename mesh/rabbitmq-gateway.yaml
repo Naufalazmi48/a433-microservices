@@ -1,0 +1,37 @@
+# Membuat objek gateways dengan port 80 sebagai gateway penghubung ke order service
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: rabbitmq-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+# Membuat objek virtual service untuk merutekan dari gateway yang dibuat sebelumnya ke service tertentu
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: rabbitmq
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - rabbitmq-gateway
+  http:
+  # Mengatur rute ketika mengakses endpoint /order akan diarahkan ke service producer dengan port 3000
+    - match:
+      - uri:
+          exact: /order
+      route:
+        - destination:
+            host: rabbitmq-producer-service
+            port: 
+              number: 3000
+

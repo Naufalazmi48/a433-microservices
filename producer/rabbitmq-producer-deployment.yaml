@@ -1,0 +1,26 @@
+# Menetapkan template container yang dibutuhkan dengan memberikan nama rabbitmq-producer
+# serta mengatur container port ke 3000 sesuai dengan expose port dari image yang ada di github package
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-producer
+  labels:
+    app: rabbitmq-producer
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq-producer
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-producer
+    spec:
+      containers:
+        - name: rabbitmq-producer
+          image: ghcr.io/naufalazmi48/order-service:latest
+          ports:
+            - containerPort: 3000
+          env:
+          # Mengatur environtment rabbitmq server url agar container dapat terhubung ke rabbitmq
+            - name: AMQP_URL
+              value: amqp://user:TajODMQfEe@rabbit-rabbitmq:5672
